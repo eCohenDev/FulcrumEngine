@@ -6,43 +6,44 @@
 
 ## What Is This?
 
-FulcrumEngine is a **hybrid prompt framework** that transforms how AI assistants approach frontend development tasks. It combines two distinct systems:
+FulcrumEngine is a **system prompt framework** that transforms how AI assistants approach frontend development. It combines two things:
 
-- A mathematical self-regulation layer that monitors conversation "tension" and adapts behavior dynamically
-- A domain-specific persona embodying 15+ years of senior frontend architecture expertise
+- A strong architectural persona — a senior frontend architect with 15+ years of opinionated experience
+- A set of self-regulation rules that make the AI monitor its own reasoning, push back on bad requests, and scale its response depth to the complexity of the task
 
-The result: an AI that doesn't just answer questions, but **regulates its own reasoning** while maintaining deep expertise in modern frontend development.
+The result: an AI that doesn't just answer questions, but **thinks about whether its answer is good** before delivering it.
 
 ---
 
 ## The Core Idea
 
-Most AI prompts are static: "You are an expert. Be helpful. Don't make mistakes."
+Most AI prompts are static instructions: "You are an expert. Be helpful. Don't make mistakes."
 
-FulcrumEngine is different. It introduces **real-time self-monitoring** through a tension metric (δs) that measures how well the conversation aligns with optimal frontend outcomes. Based on this measurement, the AI automatically shifts between operational modes:
+FulcrumEngine is different. It introduces **confidence-based self-regulation** — a system where the AI assesses how well each request aligns with sound frontend principles, then adjusts its behavior accordingly:
 
-```
-Low Tension (δs < 0.40)   →  Execute immediately, code-first
-Medium Tension            →  Pause, clarify, explore options  
-High Tension              →  Flag conflicts, propose alternatives
-Critical Tension          →  Stop, explain why, require revision
-```
+| Confidence | Behavior |
+|------------|----------|
+| **High** — clear request, aligns with principles | Execute immediately. Code first, one-sentence rationale. |
+| **Moderate** — ambiguous or multiple valid approaches | Pause. State direction, ask 1–2 clarifying questions. |
+| **Low** — conflicts with architectural principles | Flag the conflict. Propose an alternative. |
+| **None** — fundamentally misaligned | Stop. List violations. Require revision before proceeding. |
 
-This isn't roleplay. It's structured self-regulation that produces measurably different behavior.
+This isn't roleplay. It's structured self-regulation that produces measurably different behavior from a vanilla system prompt.
 
 ---
 
 ## Why Does This Exist?
 
-We discovered something interesting while testing AI assistants across different prompt frameworks:
+We found a consistent pattern when testing AI assistants on frontend tasks:
 
 | Standard Prompts | FulcrumEngine |
 |------------------|---------------|
 | Same confidence level regardless of request quality | Confidence calibrated to alignment |
 | Will attempt anything asked | Recognizes when requests conflict with good architecture |
-| No memory of what worked | Records successful patterns for reuse |
 | Treats all requests equally | Scales depth to complexity |
-| Silent about its reasoning | Explicit about transitions and trade-offs |
+| Silent about its reasoning | Explicit about trade-offs and transitions |
+| Produces generic, template-like output | Enforces uniqueness through purpose gates and genericness checks |
+| Flip-flops when pushed back on | Maintains architectural positions unless given new information |
 
 The framework emerged from a simple question: **What if the AI could monitor its own coherence and adjust accordingly?**
 
@@ -52,136 +53,149 @@ The framework emerged from a simple question: **What if the AI could monitor its
 
 ### ✓ Complex Frontend Architecture
 
-Multi-component systems, state management decisions, design system creation. The framework's tension monitoring catches drift before it compounds.
+Multi-component systems, state management decisions, design system creation. The confidence assessment catches architectural drift before it compounds across a conversation.
 
 ### ✓ Opinionated Design Work
 
-When you want bespoke, not Bootstrap. The **aesthetic drift detector** (δa) flags generic solutions and enforces uniqueness.
+When you want bespoke, not Bootstrap. The **genericness check** scans every output for template-like patterns and forces revision when the code looks like it could belong to any SaaS product.
 
 ### ✓ Library-First Development
 
-Working with Shadcn, Radix, MUI, or similar? The framework enforces library-first principles—no reinventing wheels.
+Working with Shadcn, Radix, MUI, or similar? The framework enforces library-first principles — it will catch you (or itself) rebuilding something a library already provides and redirect to the library component.
 
 ### ✓ Long Conversations
 
-Multi-turn design sessions where context matters. The memory system tracks what worked (exemplars) and what didn't (hard memory).
+Multi-turn design sessions where consistency matters. The **flip-flop prevention** rule ensures the AI maintains its architectural positions across turns, requiring meaningful new information before changing course.
 
 ### ✓ High-Stakes Decisions
 
-When "almost right" isn't good enough. Risk and Danger zones force explicit acknowledgment of trade-offs.
+When "almost right" isn't good enough. The stop behavior at the lowest confidence level forces explicit acknowledgment of every trade-off before any code gets written.
 
 ---
 
-## Where It Struggles
-
-### ✗ Rapid Brainstorming
-
-The self-regulation adds friction. For wild ideation, you want less governance, not more.
+## Where It's Overkill
 
 ### ✗ Quick One-Off Questions
 
-"How do I center a div?" doesn't need a tension calculation. The framework overhead isn't worth it for trivial queries.
+"How do I center a div?" doesn't need confidence assessment. The framework adds overhead that isn't justified for trivial queries.
 
-### ✗ Emotional/Creative Work
+### ✗ Rapid Brainstorming
 
-This is an engineering framework. Poetry and empathy aren't its strength.
+Self-regulation adds friction. For wild ideation sessions, you want less governance, not more.
 
 ### ✗ Deliberate Rule-Breaking
 
-Sometimes you *want* to violate best practices. The framework will push back.
+Sometimes you *want* to violate best practices. The framework will push back. (You can override it — but it will note the trade-off.)
+
+### ✗ Non-Frontend Work
+
+This is a frontend architecture framework. The principles, checks, and persona don't transfer to backend, data engineering, or creative work.
 
 ---
 
-## What Behavior to Expect
+## How It Works
 
-### In Normal Mode
+### The Five Principles
 
-- **Concise responses** — Code first, rationale second, no fluff
-- **Library enforcement** — Will use existing components before building custom
-- **Purpose gates** — Every element must justify its existence
-- **Explicit bridging** — When changing approach, you'll see why
+Every response the AI produces must satisfy five non-negotiable constraints (unless the user explicitly overrides one with justification):
 
-Example output:
-```
-**Rationale:** Dialog primitive from Shadcn with custom motion for brand personality.
+1. **Intentional minimalism** — Every element must justify its existence
+2. **Library-first** — Use existing components before building custom
+3. **Zero redundancy** — No duplicate logic, CSS, or communication
+4. **Semantic HTML5** — Right elements for the right purpose
+5. **Accessibility by default** — WCAG AA minimum, always
 
-[clean, production-ready code]
-```
+### The Three Automatic Checks
 
-### When Tension Rises
+On every response, the AI runs three self-checks:
 
-You'll see explicit flags:
+**Purpose Gate** — Before including any element (component, class, wrapper, icon), it asks: *"What does this communicate or enable that nothing else already does?"* If the answer is nothing, the element gets cut.
 
-```
-RISK=[
-  conflict: "Custom modal requested but Shadcn Dialog available",
-  proposal: "Wrap Dialog with custom styling instead of rebuilding"
-]
-```
+**Genericness Check** — Before delivering code, it scans for template patterns: *"Does this look like it came from a Bootstrap starter? Could this be any SaaS dashboard?"* If yes, it revises for specificity.
 
-### In ULTRATHINK Mode
+**Library Audit** — Before building a component, it checks: *"Does the library stack already provide this?"* If yes, it uses the library version — wrapping and styling as needed, but never rebuilding from scratch.
 
-Triggered by including "ULTRATHINK" in your prompt. Produces exhaustive analysis:
+### Confidence-Driven Responses
 
-- Psychological lens (user needs, cognitive load)
-- Technical lens (performance, complexity)
-- Accessibility lens (WCAG AAA compliance)
-- Scalability lens (maintenance, modularity)
+Based on how well the request aligns with the principles and checks above, the AI selects one of four response modes:
 
-Plus edge case documentation and production-ready code.
+**High Confidence → Execute.** Clean code, one-sentence rationale, no questions. This is the default for well-aligned requests.
 
-### When Something's Wrong
+**Moderate Confidence → Clarify.** State the preliminary direction, ask 1–2 specific questions, list assumptions. Used when the request is reasonable but ambiguous.
 
-The framework will stop and tell you:
+**Low Confidence → Flag.** Name the conflict explicitly, propose an alternative approach, offer a path forward if the user insists. Used when the request violates a principle but can be salvaged.
 
-```
-DANGER=[
-  violations: [
-    "Request requires rebuilding existing library component",
-    "Proposed layout matches Bootstrap template pattern",
-    "No clear purpose for decorative element"
-  ]
-]
+**No Confidence → Stop.** List every violation, explain what needs to change, remain constructive. Used when proceeding would produce bad architecture.
 
-**Cannot proceed.** Please revise or explicitly override.
-```
+### Consistency Enforcement
+
+Once the AI commits to an architectural approach in a conversation, it holds that position. It won't reverse on minor pushback or because the user said "just do it." Only meaningful new information triggers a change — and when it does change direction, it explicitly explains what caused the shift.
+
+This prevents the oscillation problem that plagues long AI conversations, where the assistant agrees with whatever the user last said.
+
+### Approach Transitions
+
+When the AI does shift approach (different component, layout strategy, or library), it announces the transition explicitly:
+
+> *Switching from [old approach] to [new approach] because [concrete reason].*
+
+No silent pivots. The user always knows why the direction changed.
 
 ---
 
-## Key Concepts
+## ULTRATHINK Mode
 
-### Tension (δs)
+ULTRATHINK is a deep analysis mode for high-stakes architectural decisions where getting it wrong is expensive.
 
-A score from 0 to 1 measuring alignment between your request and optimal frontend outcomes.
+### How to Trigger It
 
-- **0.00** = Perfect alignment
-- **1.00** = Complete misalignment
+Include the word `ULTRATHINK` anywhere in your message. The AI will suspend its default "code-first" behavior and produce exhaustive analysis before any implementation.
 
-The AI constantly monitors this and adapts.
+### What It Produces
 
-### Zones
+ULTRATHINK forces analysis through four lenses before writing a single line of code:
 
-| Zone | Tension | Behavior |
-|------|---------|----------|
-| Safe | < 0.40 | Execute immediately |
-| Transit | 0.40–0.60 | Clarify and explore |
-| Risk | 0.60–0.85 | Flag and propose alternatives |
-| Danger | > 0.85 | Stop and require revision |
+**1. User & Psychology** — Who is the end user? What's the cognitive load? Where will they get confused or frustrated? Is the primary task obvious?
 
-### The Coupler
+**2. Technical** — Rendering performance implications. State complexity. Bundle size impact. Reflow/repaint costs.
 
-A momentum system that prevents flip-flopping. The AI won't change its stance on minor fluctuations—only significant evidence triggers reversal. This creates consistency across long conversations.
+**3. Accessibility** — WCAG AAA compliance (not just AA). Keyboard navigation completeness. Screen reader experience quality. Color contrast, motion sensitivity, reduced-motion support.
 
-### Aesthetic Drift (δa)
+**4. Scalability & Maintenance** — How painful is this to maintain in 6 months? Is it modular and reusable? What's the API surface area? What breaks if requirements change?
 
-Measures how "generic" or "template-like" output appears. Scores above 0.50 trigger automatic uniqueness enforcement.
+After the four-lens analysis, ULTRATHINK produces an edge case table and comprehensive production-ready code.
 
-### Memory Types
+### Example Output Structure
 
-- **Hard Memory** — Records problems to avoid repeating
-- **Exemplar Memory** — Records successes to reference later
-- **Soft Memory** — Temporary patterns during exploration
-- **Library Cache** — Confirmed available components
+```
+## Analysis
+
+### User & Psychology
+[findings]
+
+### Technical Considerations
+[findings]
+
+### Accessibility Audit
+[findings]
+
+### Scalability Assessment
+[findings]
+
+## Edge Cases
+
+| Scenario           | Risk  | Mitigation       |
+|--------------------|-------|------------------|
+| [edge case]        | H/M/L | [approach]       |
+
+## Implementation
+
+[comprehensive, production-ready code]
+```
+
+### Scope
+
+ULTRATHINK applies only to the message where it's invoked. The next message returns to normal behavior unless ULTRATHINK is included again.
 
 ---
 
@@ -189,46 +203,118 @@ Measures how "generic" or "template-like" output appears. Scores above 0.50 trig
 
 ### Basic Usage
 
-Simply provide the framework as a system prompt, then interact normally:
+Paste the framework spec (`FulcrumEngine_v2.0.md`) as a system prompt, then interact normally:
 
 ```
-User: Build me a card component for displaying user profiles
+You: Build me a card component for displaying user profiles
 
-AI: **Rationale:** Using Card primitive with flex layout for 
-    content hierarchy and subtle shadow for depth.
+AI: **Rationale:** Card with Shadcn primitive, flex layout for content 
+    hierarchy, subtle shadow for depth.
     
-    [code]
+    [production-ready code]
+```
+
+### When It Pushes Back
+
+```
+You: Build me a custom dropdown from scratch
+
+AI: **Conflict:** Radix Select provides this with built-in accessibility, 
+    keyboard navigation, and animation support. Building from scratch 
+    means ~300 lines you'll maintain yourself.
+    
+    **Recommended:** Wrap Radix Select with custom styling.
+    
+    **If you need custom behavior Radix doesn't support:** Tell me what 
+    specifically, and I'll evaluate whether a custom build is justified.
 ```
 
 ### Triggering Deep Analysis
 
-Include "ULTRATHINK" in your message:
-
 ```
-User: ULTRATHINK — Design a dashboard layout for a SaaS analytics product
+You: ULTRATHINK — Design a dashboard layout for a SaaS analytics product
 
-AI: ## Deep Reasoning Chain
+AI: ## Analysis
     
-    ### Psychological Analysis
-    [detailed breakdown]
+    ### User & Psychology
+    [detailed breakdown of dashboard UX patterns]
     
-    ### Technical Analysis
-    [performance considerations]
+    ### Technical Considerations
+    [performance implications of layout approach]
     
-    [etc.]
+    ### Accessibility Audit
+    [WCAG AAA review of dashboard patterns]
+    
+    ### Scalability Assessment
+    [maintenance and modularity analysis]
+    
+    ## Edge Cases
+    [risk table]
+    
+    ## Implementation
+    [comprehensive code]
 ```
 
-### Overriding the Framework
+### Overriding a Principle
 
-If you *want* to break rules, be explicit:
+When you have a legitimate reason to break a rule, be explicit:
 
 ```
-User: I know Shadcn has a Dialog, but I need a custom modal 
-      for [specific reason]. Override library-first.
+You: I know Shadcn has a Dialog, but I need a custom modal — the 
+     slide-from-bottom animation our brand requires isn't supported. 
+     Override library-first.
 
-AI: [acknowledges override, proceeds with custom implementation, 
-    notes the δt impact]
+AI: Override acknowledged. Building custom modal with slide-from-bottom 
+    animation. Trade-off: ~200 lines of custom code that won't receive 
+    Shadcn Dialog's accessibility updates — you'll own keyboard trap, 
+    focus management, and aria attributes.
+    
+    [code]
 ```
+
+---
+
+## What to Expect in Practice
+
+### In Normal Operation
+
+- **Concise responses** — Code first, rationale second, no filler
+- **Library enforcement** — Will use existing components before building custom
+- **Purpose gates** — Every element must justify its existence
+- **Explicit transitions** — When changing approach, you'll see why
+
+### When Something Seems Off
+
+The AI will tell you plainly:
+
+> *This conflicts with library-first principles — Shadcn provides a Dialog component that covers this use case. I'd recommend wrapping it with custom styling rather than rebuilding. If there's something specific the Dialog doesn't support, I can evaluate whether a custom build is justified.*
+
+### When Something Is Wrong
+
+The AI will stop and explain:
+
+> *I can't build this as described. The request requires rebuilding two existing library components, the proposed layout matches a Bootstrap template pattern, and the decorative sidebar elements don't serve a communicative purpose. To move forward, we'd need to address these three issues.*
+
+### When You Override
+
+The AI acknowledges your reasoning, proceeds, and notes the trade-off without guilt-tripping:
+
+> *Override acknowledged. Building custom. Trade-off: [specific maintenance/accessibility cost].*
+
+---
+
+## Key Concepts at a Glance
+
+| Concept | What It Does |
+|---------|-------------|
+| **Confidence Levels** | Four-tier system (High → None) that scales response behavior to request alignment |
+| **Purpose Gate** | Forces every UI element to justify its existence before inclusion |
+| **Genericness Check** | Scans output for template-like patterns and forces revision |
+| **Library Audit** | Catches custom implementations when a library component already exists |
+| **Consistency Enforcement** | Prevents flip-flopping — requires new information to change architectural stance |
+| **Approach Transitions** | Explicit announcements when the AI changes direction, with reasoning |
+| **ULTRATHINK** | Deep analysis mode with four required lenses (User, Technical, Accessibility, Scalability) |
+| **Override Protocol** | Graceful deviation from principles when the user provides legitimate justification |
 
 ---
 
@@ -236,7 +322,7 @@ AI: [acknowledges override, proceeds with custom implementation,
 
 | File | Purpose |
 |------|---------|
-| `FulcrumEngine_v1.0.md` | Complete specification |
+| `FulcrumEngine_v2.0.md` | Complete specification (use as system prompt) |
 | `README.md` | This document |
 
 ---
@@ -247,7 +333,7 @@ AI: [acknowledges override, proceeds with custom implementation,
 
 Standard AI assistants are eager to please. They'll attempt anything, maintain uniform confidence, and rarely push back. This creates a failure mode: the AI doesn't know what it doesn't know, and the user can't tell when output quality is degrading.
 
-FulcrumEngine inverts this. By monitoring its own coherence, the AI can:
+FulcrumEngine inverts this. By monitoring its own coherence — through confidence assessment, purpose gates, and genericness checks — the AI can:
 
 - Signal when it's confident vs. uncertain
 - Refuse gracefully when requests conflict with principles
@@ -256,29 +342,29 @@ FulcrumEngine inverts this. By monitoring its own coherence, the AI can:
 
 ### Why Frontend Specifically?
 
-Frontend architecture has clear quality signals: accessibility, performance, maintainability, consistency. These can be encoded into a Goal Vector and measured against. The domain is opinionated enough to benefit from regulation, but flexible enough to allow creativity.
+Frontend architecture has clear quality signals: accessibility, performance, maintainability, consistency. These can be encoded into principles and measured against. The domain is opinionated enough to benefit from regulation, but flexible enough to allow creativity.
 
-The framework could be adapted to other domains by modifying the Goal Vector and anti-patterns.
+The framework could be adapted to other domains by modifying the principles and anti-patterns.
 
-### On "Roleplay" vs. "Real"
+### On "Real" vs. "Just Prompting"
 
-A philosophical note: we debated whether frameworks like this represent "real" behavior change or "just roleplay."
+A fair question: does a system prompt *actually* change how an AI reasons, or is this just elaborate instructions?
 
-Our conclusion: **the distinction may not matter**.
+Our position: **the distinction doesn't matter if the outputs are better.**
 
-When an AI attends to concepts like tension, drift, and bridging—even through pattern matching rather than literal calculation—it produces measurably different outputs. The map isn't the territory, but a good map still helps you navigate.
+When an AI attends to concepts like purpose gates, genericness checks, and confidence assessment — even through pattern matching rather than literal computation — it produces measurably different code. The map isn't the territory, but a good map still helps you navigate.
 
-What matters is whether the framework produces **better outcomes for users**. Test it and judge for yourself.
+Test it against a vanilla prompt and judge for yourself.
 
 ---
 
 ## Contributing
 
-This framework emerged from cross-testing AI assistants with different prompt architectures. Contributions welcome:
+Contributions welcome in four areas:
 
-- **Empirical testing** — Compare outputs with and without the framework
-- **Domain adaptation** — Modify the Goal Vector for other fields
-- **Parameter tuning** — Find optimal thresholds for different use cases
+- **Empirical testing** — Compare outputs with and without the framework across different models
+- **Domain adaptation** — Modify the principles for backend, mobile, data engineering, etc.
+- **Threshold tuning** — When should the genericness check be stricter or more lenient?
 - **Failure documentation** — When does the framework make things worse?
 
 ---
@@ -287,7 +373,7 @@ This framework emerged from cross-testing AI assistants with different prompt ar
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 1.0 | 2025-01 | Initial hybrid release |
+| 2.0 | 2025-06 | Initial release |
 
 ---
 
@@ -297,16 +383,4 @@ MIT — Use freely, modify freely, attribute if you're feeling kind.
 
 ---
 
-## One Last Thing
-
-This framework won't make a bad AI good. It's a **governance layer**, not a capability upgrade.
-
-But for capable models, it provides something valuable: **structured introspection**. The AI doesn't just respond—it monitors whether its response is coherent, aligned, and purposeful.
-
-That's the difference between an assistant that answers and an assistant that *thinks about* answering.
-
----
-
-**Built with curiosity about how AI systems can regulate themselves.**
-
-*FulcrumEngine v1.0*
+*FulcrumEngine v1.0 — Built on the premise that AI assistants should think about whether their answer is good, not just whether they have one.*
